@@ -72,20 +72,74 @@ interface TransactionResponse {
         ];
     };
 }
+
 const config = {
     PAGARME_BASE_URL: process.env.PAGARME_BASE_URL ?? '',
-    API_KEY: process.env.API_KEY ?? '',
+    API_KEY: process.env.PAGARME_API_KEY ?? '',
 };
 
 const client = axios.create({
     baseURL: config.PAGARME_BASE_URL,
     auth: {
         username: config.API_KEY,
-        password: 'x'
-    }
+        password: 'x',
+    },
 });
 
-const create_bankslip = () => {};
-const get_bankslip = () => {};
+/**
+ * Chamada genérica que permite interagir com a pagar.me
+ * @param method método http desejado;
+ * @param url url da requisição;
+ * @param data dados para executar ações;
+ */
+const call = async (
+    method: 'get' | 'post' | 'put',
+    url: string,
+    data?: TransactionUpdateRequest | TransactionRequest,
+): Promise<Response<TransactionResponse | Error>> => {
+    try {
+        const response = await client.request({
+            method,
+            url,
+            data,
+        });
 
-export default { create_bankslip, get_bankslip }
+        return {
+            status: 'success',
+            data: response.data,
+        };
+    } catch (err) {
+        console.error(JSON.stringify(err));
+        return {
+            status: 'error',
+            data: {
+                message: 'Erro genérico',
+            },
+        };
+    }
+};
+/**
+ * Gera um novo boleto a partir das informações inseridas;
+ * @param transaction objeto descritivo das informações de um novo boleto;
+ */
+const create_bankslip = async (transaction: TransactionRequest): Promise<Response<TransactionResponse | Error>> => {
+    return call('post', '/transactions/', transaction);
+};
+
+/**
+ * Obtém informações do estado de uma transação;
+ * @param transaction_id id da transação para obter informações sobre o estado;
+ */
+const get_bankslip = async (transaction_id: string): Promise<Response<TransactionResponse | Error>> => {
+    return call('get', `/transactions/${transaction_id}`);
+};
+
+/**
+ * Método disponivel apenas a fim de testes
+ * Altera o estado de um Boleto para pago (útil para ambientes de testes);
+ */
+const pay_bankslip = async (transaction_id: string): Promise<Response<TransactionResponse | Error>> => {
+    return call('put', `/transactions/${transaction_id}`, { status: 'paid' });
+};
+
+export default { create_bankslip, get_bankslip, pay_bankslip };
