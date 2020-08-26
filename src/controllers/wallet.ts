@@ -122,7 +122,59 @@ const withdraw = async (ctx: ParameterizedContext, next: Next): Promise<void> =>
     };
 };
 
-const withdraw = async (ctx: ParameterizedContext, next: Next): Promise<void> => {};
+/**
+ * Controller responsável por realizar 'transferências de valores' entre dois correntistas;
+ * @param ctx
+ * @param next
+ */
+const transfer = async (ctx: ParameterizedContext, next: Next): Promise<void> => {
+    const { wallet_id, user_id } = ctx.state;
+
+    const { receiver_id, value } = ctx.requery.body;
+
+    if (value <= 0 || user_id === receiver_id) {
+        ctx.status = 400;
+        ctx.body = {
+            status: 'error',
+            data: {
+                message: Errors.CANNOT_DEPOSIT_ERROR,
+            },
+        };
+    }
+
+    const [wallet, receiver_wallet] = await Promise.all([
+        Wallet.get_wallet(wallet_id),
+        Wallet.get_wallet_by_user_id(receiver_id),
+    ]);
+
+    const transfer_statement = await Wallet.transfer({
+        wallet_id: wallet.id,
+        receiver_wallet_id: receiver_wallet.id,
+        payment_type: 'money',
+        value,
+    });
+
+    if (!transfer_statement) {
+        ctx.status = 400;
+        ctx.body = {
+            status: 'error',
+            data: {
+                message: Errors.CANNOT_TRANSFER_ERROR,
+            },
+        };
+    }
+
+    ctx.status = 201;
+    ctx.body = {
+        status: 'success',
+        data: {
+            transfer_statement,
+        },
+    };
+
+    await next();
+};
+
 
 const payment = async (ctx: ParameterizedContext, next: Next): Promise<void> => {};
 
