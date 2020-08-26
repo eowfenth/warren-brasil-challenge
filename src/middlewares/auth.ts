@@ -5,7 +5,7 @@ import User from '../repositories/user';
 import Errors from '../utils/errors';
 
 /**
- * Middleware responsável por verificar um password;
+ * Middleware responsável por verificar validade de um password;
  * @param ctx
  * @param next
  */
@@ -65,6 +65,11 @@ const encrypt_password = async (ctx: ParameterizedContext, next: Next): Promise<
     await next();
 };
 
+/**
+ * Middleware responsável por validar o uso de um token JWT;
+ * @param ctx
+ * @param next
+ */
 const check_authorization = async (ctx: ParameterizedContext, next: Next): Promise<void> => {
     const authorization_header = ctx.get('Authorization');
 
