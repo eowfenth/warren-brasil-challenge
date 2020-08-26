@@ -34,7 +34,51 @@ const statement = async (ctx: ParameterizedContext, next: Next): Promise<void> =
     await next();
 };
 
-const statement = async (ctx: ParameterizedContext, next: Next): Promise<void> => {};
+/**
+ * Controller responsável pela funcionalidade de 'Deposito' em uma Wallet utilizando método de pagamento 'Dinheiro';
+ * Caso você queira fazer um deposito por 'boleto', utilize a função 'deposit_by_bankslip';
+ * @param ctx
+ * @param next
+ */
+const deposit = async (ctx: ParameterizedContext, next: Next): Promise<void> => {
+    const wallet_id = ctx.state.wallet_id;
+
+    const { value } = ctx.requery.body;
+
+    if (value <= 0) {
+        ctx.status = 400;
+        ctx.body = {
+            status: 'error',
+            data: {
+                message: Errors.CANNOT_DEPOSIT_ERROR,
+            },
+        };
+    }
+
+    const wallet = await Wallet.get_wallet(wallet_id);
+
+    const deposit_statement = await Wallet.deposit({ wallet_id: wallet.id, payment_type: 'money', value });
+
+    if (!deposit_statement) {
+        ctx.status = 400;
+        ctx.body = {
+            status: 'error',
+            data: {
+                message: Errors.CANNOT_DEPOSIT_ERROR,
+            },
+        };
+    }
+
+    ctx.status = 201;
+    ctx.body = {
+        status: 'success',
+        data: {
+            statement: deposit_statement,
+        },
+    };
+
+    await next();
+};
 
 const deposit = async (ctx: ParameterizedContext, next: Next): Promise<void> => {};
 
