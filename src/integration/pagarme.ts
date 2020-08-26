@@ -35,7 +35,7 @@ interface TransactionRequest {
     boleto_rules?: 'strict_expiration_date' | 'no_strict';
 }
 
-interface TransactionResponse {
+export interface TransactionResponse {
     object: 'transaction';
     status: 'refused' | 'waiting_payment' | 'processing' | 'paid';
     status_reason: 'acquirer';
