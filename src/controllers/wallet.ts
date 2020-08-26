@@ -80,7 +80,47 @@ const deposit = async (ctx: ParameterizedContext, next: Next): Promise<void> => 
     await next();
 };
 
-const deposit = async (ctx: ParameterizedContext, next: Next): Promise<void> => {};
+
+/**
+ * Controller responsável por lidar com 'Resgates ou Saques';
+ * @param ctx
+ * @param next
+ */
+const withdraw = async (ctx: ParameterizedContext, next: Next): Promise<void> => {
+    const wallet_id = ctx.state.wallet_id;
+
+    const { value } = ctx.requery.body;
+
+    if (value <= 0) {
+        ctx.status = 400;
+        ctx.body = {
+            status: 'error',
+            data: {
+                message: Errors.CANNOT_DEPOSIT_ERROR,
+            },
+        };
+    }
+
+    const withdraw_statement = await Wallet.withdraw(wallet_id, value);
+
+    if (!withdraw_statement) {
+        ctx.status = 400;
+        ctx.body = {
+            status: 'error',
+            data: {
+                message: Errors.CANNOT_DEPOSIT_ERROR,
+            },
+        };
+    }
+
+    ctx.status = 201;
+    ctx.body = {
+        status: 'success',
+        data: {
+            statement: withdraw_statement,
+        },
+    };
+};
 
 const withdraw = async (ctx: ParameterizedContext, next: Next): Promise<void> => {};
 
