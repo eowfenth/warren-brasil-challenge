@@ -65,4 +65,37 @@ const encrypt_password = async (ctx: ParameterizedContext, next: Next): Promise<
     await next();
 };
 
-export default { compare_password, encrypt_password };
+const check_authorization = async (ctx: ParameterizedContext, next: Next): Promise<void> => {
+    const authorization_header = ctx.get('Authorization');
+
+    console.log('Header', authorization_header);
+
+    const [, token] = authorization_header.split(' ');
+    if (!authorization_header) {
+        ctx.status = 401;
+        ctx.body = {
+            status: 'error',
+            data: {
+                message: Errors.UNAUTHORIZED_ERROR,
+            },
+        };
+        return;
+    }
+
+    const verification = await authorization_handler.check(token);
+
+    if (!verification) {
+        ctx.status = 401;
+        ctx.body = {
+            status: 'error',
+            data: {
+                message: Errors.UNAUTHORIZED_ERROR,
+            },
+        };
+        return;
+    }
+
+    await next();
+};
+
+export default { compare_password, encrypt_password, check_authorization };
