@@ -6,7 +6,7 @@ import Errors from '../utils/errors';
  * @param next
  */
 const statement = async (ctx: ParameterizedContext, next: Next): Promise<void> => {
-    const { page_size = 15, page_number = 1 } = ctx.request.query;
+    const { page_size = process.env.PAGE_SIZE_DEFAULT || 15, page_number = 1 } = ctx.request.query;
     const wallet_id = ctx.state.wallet_id;
 
     const wallet = await Wallet.get_wallet(wallet_id);
