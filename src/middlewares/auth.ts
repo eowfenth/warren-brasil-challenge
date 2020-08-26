@@ -4,6 +4,11 @@ import authorization_handler from '../utils/authorization';
 import User from '../repositories/user';
 import Errors from '../utils/errors';
 
+/**
+ * Middleware responsável por verificar um password;
+ * @param ctx
+ * @param next
+ */
 const compare_password = async (ctx: ParameterizedContext, next: Next): Promise<void> => {
     const { email = null, password = null } = ctx.request.body;
 
@@ -36,5 +41,28 @@ const compare_password = async (ctx: ParameterizedContext, next: Next): Promise<
     await next();
 };
 
+/**
+ * Middleware responsável por encriptar um password;
+ * @param ctx
+ * @param next
+ */
+const encrypt_password = async (ctx: ParameterizedContext, next: Next): Promise<void> => {
+    const { password = null } = ctx.request.body;
 
-export default { compare_password };
+    if (!password) {
+        ctx.status = 400;
+        ctx.body = {
+            status: 'error',
+            data: {
+                message: Errors.NO_PASSWORD_SIGN_UP_ERROR,
+            },
+        };
+    }
+
+    const password_hash = password_handler.encrypt(password);
+    ctx.state.password_hash = password_hash;
+
+    await next();
+};
+
+export default { compare_password, encrypt_password };
