@@ -11,11 +11,11 @@ const getDateFromNow = (days: number): Date => {
 };
 
 /**
- * Formata um Data para um formato básico de datas, dd/mm/aaaa;
+ * Formata uma Data para um formato básico de datas, aaaa/mm/dd;
  * @param date timestamp relativo a alguma data;
  */
 const formatBasicDate = (date: Date): string => {
-    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    return `-${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 };
 
 export { getDateFromNow, formatBasicDate };
