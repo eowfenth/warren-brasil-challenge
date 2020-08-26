@@ -59,7 +59,7 @@ const encrypt_password = async (ctx: ParameterizedContext, next: Next): Promise<
         };
     }
 
-    const password_hash = password_handler.encrypt(password);
+    const password_hash = await password_handler.encrypt(password);
     ctx.state.password_hash = password_hash;
 
     await next();
