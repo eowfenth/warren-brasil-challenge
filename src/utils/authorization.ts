@@ -22,7 +22,7 @@ const sign = (data: { email?: string; user_id?: string; wallet_id?: string }): s
 };
 
 /**
- *
+ * Verifica validade de um token JWT;
  * @param token
  */
 const check = async (token: string): Promise<JWTValidated | null> => {
