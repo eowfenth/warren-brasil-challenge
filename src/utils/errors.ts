@@ -6,6 +6,7 @@ const errors = {
     CANNOT_SIGN_UP_ERROR: 'Não foi possível finalizar o cadastrado',
     UNAUTHORIZED_ERROR: 'Não é permitido finalizar esta ação',
     CANNOT_DEPOSIT_ERROR: 'Não foi possível finalizar deposito',
+    CANNOT_TRANSFER_ERROR: 'Não foi possível finalizar transferência',
     CANNOT_CREATE_BANKSLIP_ERROR: 'Não foi possível gerar um boleto no momento',
 };
 
