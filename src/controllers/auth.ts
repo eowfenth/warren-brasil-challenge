@@ -2,6 +2,11 @@ import { ParameterizedContext, Next } from 'koa';
 import User from '../repositories/user';
 import Errors from '../utils/errors';
 
+/**
+ * Controller responsável por lidar com autorizações de Log-in;
+ * @param ctx
+ * @param next
+ */
 const sign_in = async (ctx: ParameterizedContext, next: Next): Promise<void> => {
     const { email = null, password = null } = ctx.request.body;
     const { token } = ctx.state;
@@ -25,6 +30,11 @@ const sign_in = async (ctx: ParameterizedContext, next: Next): Promise<void> => 
     await next();
 };
 
+/**
+ * Controller responsável por lidar com autorizações de 'Cadastro';
+ * @param ctx
+ * @param next
+ */
 const sign_up = async (ctx: ParameterizedContext, next: Next): Promise<void> => {
     const { document_id = null, birthdate = null, email = null, name = null } = ctx.request.body;
     const password_hash: string = ctx.state.password_hash;
