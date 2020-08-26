@@ -68,8 +68,6 @@ const encrypt_password = async (ctx: ParameterizedContext, next: Next): Promise<
 const check_authorization = async (ctx: ParameterizedContext, next: Next): Promise<void> => {
     const authorization_header = ctx.get('Authorization');
 
-    console.log('Header', authorization_header);
-
     const [, token] = authorization_header.split(' ');
     if (!authorization_header) {
         ctx.status = 401;
