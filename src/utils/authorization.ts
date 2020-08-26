@@ -5,6 +5,8 @@ dotenv.config();
 
 interface JWTValidated {
     email?: string;
+    wallet_id?: string;
+    user_id?: string;
     id?: string;
     iat: number;
     exp: number;
@@ -14,7 +16,7 @@ interface JWTValidated {
  * Gera um novo token JWT;
  * @param data payload contendo email ou id do usuário para inserir no token;
  */
-const sign = (data: { email?: string; id?: string }): string => {
+const sign = (data: { email?: string; user_id?: string; wallet_id?: string }): string => {
     const token = jwt.sign(data, process.env.JWT_SECRET ?? '', { expiresIn: process.env.JWT_EXPIRING_TIME ?? '3d' });
     return token;
 };
