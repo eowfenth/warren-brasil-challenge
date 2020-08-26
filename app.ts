@@ -1,6 +1,7 @@
 import Koa from 'koa';
 import logger from 'koa-logger';
 import json from 'koa-json';
+import body_parser from 'koa-bodyparser';
 import dotenv from 'dotenv';
 import router from './src/routes';
 
@@ -8,6 +9,7 @@ dotenv.config();
 
 const app = new Koa();
 
+app.use(body_parser());
 app.use(json());
 app.use(logger());
 
