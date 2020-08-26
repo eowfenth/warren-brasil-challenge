@@ -10,7 +10,7 @@ export async function up(knex: Knex): Promise<void> {
         table.text('document_id').notNullable();
         table.text('email').notNullable();
         table.timestamp('birthdate').notNullable();
-        table.integer('age').notNullable();
+        table.text('password_hash').notNullable();
     });
 
     await createTable(knex, 'wallets', (table) => {
