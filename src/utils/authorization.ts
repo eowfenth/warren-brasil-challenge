@@ -3,6 +3,11 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+/**
+ * iat refere-se a issued_at
+ *
+ * exp refere-se a expired_at
+ */
 interface JWTValidated {
     email?: string;
     wallet_id?: string;
