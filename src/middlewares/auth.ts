@@ -19,6 +19,7 @@ const compare_password = async (ctx: ParameterizedContext, next: Next): Promise<
             status: 'error',
             message: Errors.NO_PASSWORD_LOGIN_ERROR,
         };
+        return;
     }
 
     if (!email) {
@@ -27,6 +28,7 @@ const compare_password = async (ctx: ParameterizedContext, next: Next): Promise<
             status: 'error',
             message: Errors.NO_EMAIL_LOGIN_ERROR,
         };
+        return;
     }
 
     const user = await User.get_one_by_email(email);
@@ -50,9 +52,17 @@ const compare_password = async (ctx: ParameterizedContext, next: Next): Promise<
             const token = authorization_handler.sign({ email: user.email, user_id: user.id, wallet_id: wallet.id });
             ctx.state.token = token;
         }
+
+        return next();
     }
 
-    await next();
+    ctx.status = 401;
+    ctx.body = {
+        status: 'error',
+        data: {
+            message: Errors.WRONG_CREDENTIALS,
+        },
+    };
 };
 
 /**
@@ -71,6 +81,8 @@ const encrypt_password = async (ctx: ParameterizedContext, next: Next): Promise<
                 message: Errors.NO_PASSWORD_SIGN_UP_ERROR,
             },
         };
+
+        return;
     }
 
     const password_hash = await password_handler.encrypt(password);

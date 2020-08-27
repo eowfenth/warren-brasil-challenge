@@ -55,6 +55,8 @@ const deposit = async (ctx: ParameterizedContext, next: Next): Promise<void> => 
                 message: Errors.CANNOT_DEPOSIT_ERROR,
             },
         };
+
+        return;
     }
 
     const wallet = await Wallet.get_wallet(wallet_id);
@@ -139,9 +141,9 @@ const withdraw = async (ctx: ParameterizedContext, next: Next): Promise<void> =>
 const transfer = async (ctx: ParameterizedContext, next: Next): Promise<void> => {
     const { wallet_id, user_id } = ctx.state;
 
-    const { receiver_id, value } = ctx.request.body;
+    const { receiver_id = null, value = 0 } = ctx.request.body;
 
-    if (value <= 0 || user_id === receiver_id) {
+    if (value <= 0 || user_id === receiver_id || !receiver_id) {
         ctx.status = 400;
         ctx.body = {
             status: 'error',
@@ -151,8 +153,9 @@ const transfer = async (ctx: ParameterizedContext, next: Next): Promise<void> =>
         };
     }
 
+    console.log('hey3');
     const receiver_wallet = await Wallet.get_wallet_by_user_id(receiver_id);
-
+    console.log('haha');
     if (receiver_wallet) {
         const transfer_statement = await Wallet.transfer({
             wallet_id,

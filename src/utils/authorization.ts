@@ -35,7 +35,6 @@ const check = async (token: string): Promise<JWTValidated | null> => {
         const verification = (await jwt.verify(token, process.env.JWT_SECRET ?? '')) as JWTValidated;
         return verification;
     } catch (err) {
-        console.error(err);
         return null;
     }
 };

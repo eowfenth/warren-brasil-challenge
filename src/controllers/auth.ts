@@ -18,6 +18,7 @@ const sign_in = async (ctx: ParameterizedContext, next: Next): Promise<void> => 
             status: 'error',
             data: { message: !email ? Errors.NO_EMAIL_LOGIN_ERROR : Errors.NO_PASSWORD_LOGIN_ERROR },
         };
+        return;
     }
 
     ctx.status = 200;
@@ -43,10 +44,11 @@ const sign_up = async (ctx: ParameterizedContext, next: Next): Promise<void> => 
         email = null,
         first_name = null,
         last_name = null,
+        password = null,
     } = ctx.request.body;
     const password_hash: string = ctx.state.password_hash;
 
-    if (!document_id || !birthdate || !email || !first_name || !last_name) {
+    if (!document_id || !birthdate || !email || !first_name || !last_name || !password) {
         ctx.status = 400;
         ctx.body = {
             status: 'error',
@@ -69,7 +71,7 @@ const sign_up = async (ctx: ParameterizedContext, next: Next): Promise<void> => 
 
     if (user) {
         const wallet_id = await Wallet.create(user.user_id);
-        ctx.status = 200;
+        ctx.status = 201;
         ctx.body = {
             status: 'success',
             data: {

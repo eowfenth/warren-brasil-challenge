@@ -7,7 +7,6 @@ import { Wallet, Transaction } from '../db';
  * @param wallet_id id da conta corrente
  */
 const get_wallet = async (wallet_id: string): Promise<Wallet | null> => {
-    console.log(wallet_id);
     const wallet: Wallet = await knex('wallets').select().where({ deleted_at: null, id: wallet_id }).first();
     return wallet;
 };
@@ -121,7 +120,7 @@ const transfer = async (transaction: {
 };
 
 /**
- * Cria uma nova conta corrente para um usuário; 
+ * Cria uma nova conta corrente para um usuário;
  * @param user_id id do usuário
  */
 const create = async (user_id: string): Promise<string | null> => {
