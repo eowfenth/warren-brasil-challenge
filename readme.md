@@ -12,7 +12,7 @@ O prazo dado para termino é de 7 dias.
 
 -   Este projeto não possui um código front-end para você interagir. No entanto, existe uma collection do `postman` completa com todos os endpoints. Existe uma ordem de execução caso você queira verificar os endpoints de maneira rápida.
 
-A collection está neste [link]().
+A collection está neste [link](https://www.getpostman.com/collections/350e277b41af8411dbf7), você pode utitlizar ela com o [Postman](https://www.postman.com/).
 
 -   O projeto não possui a funcionalidade de calcular a remuneração da conta corrente.
 -   O projeto possui as 4 funcionalidades: depósito de uma conta (`deposit`), pagamento entre contas (`transfer`), resgate (`withdraw`) e obtenção de extrato (`statement`). Além disso, o projeto possui autenticação e também cadastro.
