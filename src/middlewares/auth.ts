@@ -2,6 +2,7 @@ import { ParameterizedContext, Next } from 'koa';
 import password_handler from '../utils/password';
 import authorization_handler from '../utils/authorization';
 import User from '../repositories/user';
+import Wallet from '../repositories/wallet';
 import Errors from '../utils/errors';
 
 /**
@@ -22,20 +23,25 @@ const compare_password = async (ctx: ParameterizedContext, next: Next): Promise<
 
     const user = await User.get_one_by_email(email);
 
-    const is_valid = await password_handler.compare(user.password, password);
+    if (user) {
+        const is_valid = await password_handler.compare(user.password_hash, password);
 
-    if (is_valid) {
-        const token = authorization_handler.sign({ email: user.email });
+        if (!is_valid) {
+            ctx.status = 401;
+            ctx.body = {
+                status: 'error',
+                data: {
+                    message: Errors.WRONG_CREDENTIALS,
+                },
+            };
+            return;
+        }
+        const wallet = await Wallet.get_wallet_by_user_id(user.id);
 
-        ctx.state.token = token;
-    } else {
-        ctx.status = 401;
-        ctx.body = {
-            status: 'error',
-            data: {
-                message: Errors.WRONG_CREDENTIALS,
-            },
-        };
+        if (wallet) {
+            const token = authorization_handler.sign({ email: user.email, user_id: user.id, wallet_id: wallet.id });
+            ctx.state.token = token;
+        }
     }
 
     await next();
@@ -97,6 +103,9 @@ const check_authorization = async (ctx: ParameterizedContext, next: Next): Promi
         };
         return;
     }
+
+    const { email, user_id, wallet_id } = verification;
+    ctx.state = { ...ctx.state, email, user_id, wallet_id };
 
     await next();
 };
