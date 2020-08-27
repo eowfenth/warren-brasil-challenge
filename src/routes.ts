@@ -5,7 +5,6 @@ import Wallet from './controllers/wallet';
 
 const router = new Router();
 
-
 router.get('/wallet/statement', AuthMiddleware.check_authorization, Wallet.statement);
 router.post('/wallet/payment', AuthMiddleware.check_authorization, Wallet.payment);
 router.post('/wallet/transfer', AuthMiddleware.check_authorization, Wallet.transfer);
