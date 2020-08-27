@@ -116,7 +116,7 @@ describe('user using statement and deposit operations', () => {
     });
 
     test('deposit a positive value to a user', async () => {
-        const response = await request(server)
+        await request(server)
             .post('/wallet/deposit')
             .send({
                 value: 1000,
