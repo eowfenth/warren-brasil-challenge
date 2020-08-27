@@ -179,9 +179,17 @@ const transfer = async (ctx: ParameterizedContext, next: Next): Promise<void> =>
                 transfer_statement: transfer_statement.withdraw,
             },
         };
+
+        return next();
     }
 
-    await next();
+    ctx.status = 404;
+    ctx.body = {
+        status: 'error',
+        data: {
+            message: Errors.NOT_FOUND,
+        },
+    };
 };
 
 export default { statement, deposit, withdraw, transfer };
