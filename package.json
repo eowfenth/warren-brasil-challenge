@@ -7,7 +7,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "migration:create": "knex migrate:make",
         "migration:revert": "knex migrate:rollback",
-        "migration:run": "knex migrate:latest"
+        "migration:run": "knex migrate:latest",
+        "typedoc:run": "typedoc --out docs src"
     },
     "keywords": [],
     "author": "",
@@ -36,6 +37,7 @@
         "supertest": "^4.0.2",
         "ts-jest": "^26.2.0",
         "ts-node": "^8.10.2",
+        "typedoc": "^0.18.0",
         "typescript": "^3.9.7"
     },
     "dependencies": {
