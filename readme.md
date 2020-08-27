@@ -25,6 +25,7 @@ A collection está neste [link]().
 -   O projeto, por óbvio, não trata de concorrência de chamadas. Não existe um sistema de filas que proteja de ações concorrentes indevidas;
 -   O projeto possui cadastro e autenticação, apesar disso, utiliza `JWT` ao invés de `OAuth`;
 -   O projeto utiliza do `Helmet` para mitigar algumas vulnerabilidades;
+-   Todos os commits foram feitos utilizando commit semânticos.
 
 ### O que este projeto utiliza?
 
