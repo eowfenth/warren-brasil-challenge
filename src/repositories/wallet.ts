@@ -81,7 +81,7 @@ const transfer = async (transaction: {
     value: number;
 }): Promise<{ withdraw: Transaction; deposit: Transaction } | null> => {
     const { wallet_id, receiver_wallet_id, value } = transaction;
-    const withdraw = await action(wallet_id, value * -1, 'transfer_withdraw');
+    const withdraw = await action(wallet_id, value, 'transfer_withdraw');
 
     if (withdraw) {
         const deposit = await action(receiver_wallet_id, value, 'transfer_deposit');
