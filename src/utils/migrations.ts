@@ -1,5 +1,12 @@
 import Knex, { CreateTableBuilder } from 'knex';
 
+/**
+ * Função Helper para criar uma nova tabela;
+ * @param knex instância do knex;
+ * @param tableName nome da tabela;
+ * @param tableBuilder objeto tableBuilder
+ * @param idColumnType tipo da coluna;
+ */
 export async function createTable(
     knex: Knex,
     tableName: string,
@@ -15,6 +22,11 @@ export async function createTable(
     });
 }
 
+/**
+ * Função helper para derrubar uma tabela;
+ * @param knex instância do knex
+ * @param tableName nome da tabela;
+ */
 export async function dropTable(knex: Knex, tableName: string): Promise<void> {
     await knex.schema.dropTable(tableName);
 }

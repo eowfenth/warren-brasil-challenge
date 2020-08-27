@@ -18,11 +18,19 @@ export interface SignUpResult {
     email: string;
 }
 
+/**
+ * Obtém uma entidade usuário a partir de um email;
+ * @param email email de usuário
+ */
 const get_one_by_email = async (email: string): Promise<User | null> => {
     const user: User = await knex('users').select().where({ deleted_at: null, email }).first();
     return user;
 };
 
+/**
+ * Formatador da Entidade Usuário em um formato mais limpo
+ * @param user entidade usuário;
+ */
 const format_sign_up = (user: User): SignUpResult => {
     const { first_name, last_name, id: user_id, email } = user;
     return {
@@ -33,6 +41,10 @@ const format_sign_up = (user: User): SignUpResult => {
     };
 };
 
+/**
+ * Chamada responsável por interagir com o banco de dados e inserir um novo usuário;
+ * @param data dados do usuário para ser inseridos;
+ */
 const sign_up = async (data: SignUpRequest): Promise<SignUpResult | null> => {
     const user_exists = await knex('users').where({ deleted_at: null, document_id: data.document_id }).first();
 
