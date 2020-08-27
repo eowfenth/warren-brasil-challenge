@@ -5,13 +5,6 @@ import Wallet from './controllers/wallet';
 
 const router = new Router();
 
-router.get('/', async (ctx, next) => {
-    ctx.body = {
-        status: 200,
-        message: 'Hello, World!',
-    };
-    await next();
-});
 
 router.get('/wallet/statement', AuthMiddleware.check_authorization, Wallet.statement);
 router.post('/wallet/payment', AuthMiddleware.check_authorization, Wallet.payment);
