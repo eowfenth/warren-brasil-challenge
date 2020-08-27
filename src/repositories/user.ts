@@ -18,6 +18,11 @@ export interface SignUpResult {
     email: string;
 }
 
+const get_one_by_email = async (email: string): Promise<User | null> => {
+    const user: User = await knex('users').select().where({ deleted_at: null, email }).first();
+    return user;
+};
+
 const format_sign_up = (user: User): SignUpResult => {
     const { first_name, last_name, id: user_id, email } = user;
     return {
@@ -52,4 +57,4 @@ const sign_up = async (data: SignUpRequest): Promise<SignUpResult | null> => {
     return null;
 };
 
-export default { sign_up };
+export default { get_one_by_email, sign_up };
