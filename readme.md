@@ -10,7 +10,7 @@ O prazo dado para termino é de 7 dias.
 
 ### O que este projeto utiliza?
 
-Este projeto foi montado utilizando `Typescript`, `Koa`, `Knex` e `Axios`. Os testes foram feitos com `Jest`. A documentação foi gerada com `Typedoc`.
+Este projeto foi montado utilizando `Typescript`, `Koa`, `Knex` e `Axios`. Os testes foram feitos com `Jest`. A documentação foi gerada com `Typedoc`.np
 
 ### Como instalar e rodar
 
@@ -132,5 +132,8 @@ Espere o seguinte fluxo para experimentação de todas as funcionalidades da apl
 ### Decisões de projeto
 
 -   O desejado era rodar não só o banco de dados, mas o projeto como um todo em `Docker`. Possivelmente utilizando `Docker Compose`. No momento, existe apenas instruções para rodar o banco de dados utilizando Docker;
--   O projeto foi configurado apenas para ambiente de desenvolvimento. Para uso em produção, alguns `tweaks` terão que ser feitos;
--   A ideia era utilizar a pagar.me para gerar um novo boleto para simular um pagamento e depósito por meio de boletos. A depender do tempo não será possível entregar.
+-   O projeto foi configurado apenas para ambiente de desenvolvimento. Para uso em produção, alguns `tweaks` terão que ser feitos, por exemplo, lidar com `cors`;
+-   A ideia era utilizar a pagar.me para gerar um novo boleto para simular um pagamento e depósito por meio de boletos. A depender do tempo não será possível entregar;
+-   O projeto, por óbvio, não trata de concorrência de chamadas. Não existe um sistema de filas que proteja de ações concorrentes indevidas;
+-   O projeto possui cadastro e autenticação, apesar disso, utiliza `JWT` ao invés de `OAuth`;
+-   O projeto utiliza do `Helmet` para mitigar algumas vulnerabilidades;
