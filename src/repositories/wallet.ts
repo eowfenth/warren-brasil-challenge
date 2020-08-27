@@ -18,8 +18,9 @@ const get_statement = async (wallet_id: string, page_number: number, page_size: 
     const result: Transaction[] = await knex('transactions')
         .select()
         .where({ deleted_at: null, wallet_id })
+        .orderBy('created_at', 'desc')
         .limit(page_size)
-        .offset((page_size - 1) * page_number);
+        .offset((page_number - 1) * page_size);
     return result;
 };
 
