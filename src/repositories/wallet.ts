@@ -30,23 +30,23 @@ const action = async (
     type: 'deposit' | 'withdraw' | 'transfer_deposit' | 'transfer_withdraw',
 ): Promise<Transaction | null> => {
     const wallet: Wallet = await knex.transaction(async (trx) => {
-        const now = new Date();
-
-        const current = await trx('wallet').select().where({ deleted_at: null, id: wallet_id }).first().forUpdate();
+        const current = await trx('wallets').select().where({ deleted_at: null, id: wallet_id }).first().forUpdate();
 
         if (!current) {
-            throw new Error(Errors.NOT_FOUND);
+            return null;
         }
 
-        if (current.balance < value) {
-            throw new Error(Errors.BALANCE_NOT_ENOUGH);
+        if ((type === 'withdraw' || type === 'transfer_withdraw') && current.balance < value) {
+            return null;
         }
 
-        const updatedWallet = await trx('wallet')
+        const currentValue = type === 'deposit' || type === 'transfer_deposit' ? value : value * -1;
+
+        const updatedWallet = await trx('wallets')
             .where({ deleted_at: null, id: wallet_id })
             .update({
-                amount: value,
-                updatedAt: now,
+                balance: current.balance + currentValue,
+                updated_at: new Date(),
             })
             .returning('*');
 
