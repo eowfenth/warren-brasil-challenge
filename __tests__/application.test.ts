@@ -67,33 +67,27 @@ describe('sign up a new user and then sign in', () => {
     });
 
     test('sign in with missing password', async () => {
-        const response = await request(server)
+        await request(server)
             .post('/auth/sign_in')
             .send({ email: faker.internet.email() })
             .expect('Content-Type', /json/)
             .expect(400);
-
-        console.log(response.body);
     });
 
     test('sign in with missing email', async () => {
-        const response = await request(server)
+        await request(server)
             .post('/auth/sign_in')
             .send({ password: faker.internet.password(8) })
             .expect('Content-Type', /json/)
             .expect(400);
-
-        console.log(response.body);
     });
 
     test('sign in with a not registered user', async () => {
-        const response = await request(server)
+        await request(server)
             .post('/auth/sign_in')
             .send({ email: faker.internet.email(), password: faker.internet.password(8) })
             .expect('Content-Type', /json/)
             .expect(401);
-
-        console.log(response.body);
     });
 });
 
