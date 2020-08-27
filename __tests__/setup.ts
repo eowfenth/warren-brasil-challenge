@@ -34,6 +34,7 @@ const create = async (): Promise<void> => {
 
 const destroy = async (instance: knex): Promise<void> => {
     await conn.end();
+    await instance.migrate.rollback();
     await instance.destroy();
 };
 
