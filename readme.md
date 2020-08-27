@@ -112,17 +112,21 @@ Para isso, rode: `npm run start`
 -   Extrato / histórico da conta
 
     -   Pode ser utilizado pelo endpoint `GET /wallet/statement`;
+    -   o valor mostrado em `balance` é sempre em centavos;
 
 -   Pagamento (Transferência entre contas)
 
     -   Pode ser utilizado pelo endpoint `POST /wallet/transfer`;
+    -   o valor a ser transferido é sempre em centavos;
 
 -   Deposito
 
     -   Pode ser utilizado pelo endpoint `POST /wallet/deposit`;
+    -   o valor a ser transferido é sempre em centavos;
 
 -   Resgate (Saque)
     -   Pode ser utilizado pelo endpoint `POST /wallet/withdraw`;
+    -   o valor a ser transferido é sempre em centavos;
 
 ### Documentação
 

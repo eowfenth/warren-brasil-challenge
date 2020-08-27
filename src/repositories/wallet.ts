@@ -40,7 +40,7 @@ const get_statement = async (wallet_id: string, page_number: number, page_size: 
 /**
  * Chamada genérica para depositar ou sacar valores de uma conta; Assim como transferir entre contas;
  * @param wallet_id id de uma conta;
- * @param value valor a ser inserido, resgatado ou transferido;
+ * @param value valor em centavos a ser inserido, resgatado ou transferido;
  * @param type tipo de ação (depósito, resgate ou transferência (pagamento));
  */
 const action = async (
