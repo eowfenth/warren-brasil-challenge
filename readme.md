@@ -130,7 +130,7 @@ Para isso, rode: `npm run start`
 
 ### Documentação
 
-Você gerar documentação do projeto utilizando o comando `npm run typedoc:run` e então acessar a documentação gerada pelo `Typedoc`, na arquivo `docs/index.html`;
+Você pode gerar documentação do projeto utilizando o comando `npm run typedoc:run` e então acessar a documentação gerada pelo `Typedoc`, na arquivo `docs/index.html`;
 
 ### Fluxo da Aplicação
 
