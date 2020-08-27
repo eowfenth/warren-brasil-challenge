@@ -15,3 +15,10 @@ export interface Wallet extends Base {
     balance: number;
     user_id: string;
 }
+
+export interface Transaction extends Base {
+    type: 'withdraw' | 'deposit' | 'transfer_deposit' | 'transfer_withdraw';
+    wallet_id: string;
+    user_id: string;
+    amount: number;
+}
