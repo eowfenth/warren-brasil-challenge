@@ -237,4 +237,4 @@ const payment = async (ctx: ParameterizedContext, next: Next): Promise<void> => 
     await next();
 };
 
-export default { statement, deposit, withdraw, payment };
+export default { statement, deposit, withdraw, payment, transfer };
