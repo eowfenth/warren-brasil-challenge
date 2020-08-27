@@ -56,6 +56,8 @@ const sign_up = async (ctx: ParameterizedContext, next: Next): Promise<void> => 
                 message: Errors.CANNOT_SIGN_UP_ERROR,
             },
         };
+
+        return;
     }
 
     const formatted_data = {
@@ -80,7 +82,7 @@ const sign_up = async (ctx: ParameterizedContext, next: Next): Promise<void> => 
             },
         };
 
-        return;
+        return next();
     }
 
     ctx.status = 400;
@@ -90,8 +92,6 @@ const sign_up = async (ctx: ParameterizedContext, next: Next): Promise<void> => 
             message: Errors.CANNOT_SIGN_UP_ERROR,
         },
     };
-
-    await next();
 };
 
 export default { sign_in, sign_up };

@@ -22,7 +22,7 @@ const statement = async (ctx: ParameterizedContext, next: Next): Promise<void> =
             },
         };
 
-        return;
+        return next();
     }
 
     ctx.status = 401;
@@ -32,8 +32,6 @@ const statement = async (ctx: ParameterizedContext, next: Next): Promise<void> =
             message: Errors.UNAUTHORIZED_ERROR,
         },
     };
-
-    await next();
 };
 
 /**
@@ -153,9 +151,7 @@ const transfer = async (ctx: ParameterizedContext, next: Next): Promise<void> =>
         };
     }
 
-    console.log('hey3');
     const receiver_wallet = await Wallet.get_wallet_by_user_id(receiver_id);
-    console.log('haha');
     if (receiver_wallet) {
         const transfer_statement = await Wallet.transfer({
             wallet_id,
