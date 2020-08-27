@@ -26,6 +26,7 @@ A collection está neste [link](https://www.getpostman.com/collections/350e277b4
 -   O projeto possui cadastro e autenticação, apesar disso, utiliza `JWT` ao invés de `OAuth`;
 -   O projeto utiliza do `Helmet` para mitigar algumas vulnerabilidades;
 -   Todos os commits foram feitos utilizando commit semânticos.
+-   Todo o fluxo está coberto por testes automatizados.
 
 ### O que este projeto utiliza?
 
@@ -131,6 +132,10 @@ Para isso, rode: `npm run start`
 ### Documentação
 
 Você pode gerar documentação do projeto utilizando o comando `npm run typedoc:run` e então acessar a documentação gerada pelo `Typedoc`, na arquivo `docs/index.html`;
+
+### Testes
+
+Você pode rodar os testes automatizados utilizando o comando `npm run test`. Um relatório de cobertura também será gerado no final.
 
 ### Fluxo da Aplicação
 
