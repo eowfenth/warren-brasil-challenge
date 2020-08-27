@@ -14,11 +14,19 @@ const compare_password = async (ctx: ParameterizedContext, next: Next): Promise<
     const { email = null, password = null } = ctx.request.body;
 
     if (!password) {
-        ctx.throw(400, Errors.NO_PASSWORD_LOGIN_ERROR);
+        ctx.status = 400;
+        ctx.body = {
+            status: 'error',
+            message: Errors.NO_PASSWORD_LOGIN_ERROR,
+        };
     }
 
     if (!email) {
-        ctx.throw(400, Errors.NO_EMAIL_LOGIN_ERROR);
+        ctx.status = 400;
+        ctx.body = {
+            status: 'error',
+            message: Errors.NO_EMAIL_LOGIN_ERROR,
+        };
     }
 
     const user = await User.get_one_by_email(email);
