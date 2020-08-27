@@ -14,9 +14,10 @@ router.get('/', async (ctx, next) => {
 });
 
 router.get('/wallet/statement', AuthMiddleware.check_authorization, Wallet.statement);
-router.post('/wallet/:id/payment', AuthMiddleware.check_authorization, Wallet.payment);
-router.post('/wallet/:id/withdraw', AuthMiddleware.check_authorization, Wallet.withdraw);
-router.post('/wallet/:id/deposit', AuthMiddleware.check_authorization, Wallet.deposit);
+router.post('/wallet/payment', AuthMiddleware.check_authorization, Wallet.payment);
+router.post('/wallet/transfer', AuthMiddleware.check_authorization, Wallet.transfer);
+router.post('/wallet/withdraw', AuthMiddleware.check_authorization, Wallet.withdraw);
+router.post('/wallet/deposit', AuthMiddleware.check_authorization, Wallet.deposit);
 router.post('/auth/sign_in', AuthMiddleware.compare_password, AuthController.sign_in);
 router.post('/auth/sign_up', AuthMiddleware.encrypt_password, AuthController.sign_up);
 
