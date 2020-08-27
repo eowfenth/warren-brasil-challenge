@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { Config } from 'knex';
 
 dotenv.config();
 
@@ -8,19 +9,21 @@ const config = {
     username: process.env.DB_USERNAME ?? 'postgres',
 };
 
-const knex_config = {
-    development: {
-        client: 'postgresql',
-        connection: {
-            database: config.database,
-            password: config.password,
-            user: config.username,
+const knex_config = (dbName: string | null): { development: Config } => {
+    return {
+        development: {
+            client: 'postgresql',
+            connection: {
+                database: dbName || config.database,
+                password: config.password,
+                user: config.username,
+            },
+            migrations: {
+                directory: 'src/migrations',
+                extension: 'ts',
+            },
         },
-        migrations: {
-            directory: 'src/migrations',
-            extensions: 'ts',
-        },
-    },
+    };
 };
 
 export default knex_config;
