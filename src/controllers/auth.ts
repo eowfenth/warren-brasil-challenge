@@ -1,6 +1,7 @@
 import { ParameterizedContext, Next } from 'koa';
-import User from '../repositories/user';
+import User, { SignUpResult } from '../repositories/user';
 import Errors from '../utils/errors';
+import Wallet from '../repositories/wallet';
 
 /**
  * Controller responsável por lidar com autorizações de Log-in;
@@ -36,10 +37,16 @@ const sign_in = async (ctx: ParameterizedContext, next: Next): Promise<void> => 
  * @param next
  */
 const sign_up = async (ctx: ParameterizedContext, next: Next): Promise<void> => {
-    const { document_id = null, birthdate = null, email = null, name = null } = ctx.request.body;
+    const {
+        document_id = null,
+        birthdate = null,
+        email = null,
+        first_name = null,
+        last_name = null,
+    } = ctx.request.body;
     const password_hash: string = ctx.state.password_hash;
 
-    if (!document_id || !birthdate || !email || !name) {
+    if (!document_id || !birthdate || !email || !first_name || !last_name) {
         ctx.status = 400;
         ctx.body = {
             status: 'error',
@@ -54,30 +61,33 @@ const sign_up = async (ctx: ParameterizedContext, next: Next): Promise<void> => 
         birthdate,
         email,
         password_hash,
-        name,
+        first_name,
+        last_name,
     };
 
-    const user: { email: string; name: string; id: string } | null = await User.sign_up(formatted_data);
-
-    if (!user) {
-        ctx.status = 400;
-        ctx.body = {
-            status: 'error',
-            data: {
-                message: Errors.CANNOT_SIGN_UP_ERROR,
-            },
-        };
-    }
+    const user: SignUpResult | null = await User.sign_up(formatted_data);
 
     if (user) {
+        const wallet_id = await Wallet.create(user.user_id);
         ctx.status = 200;
         ctx.body = {
             status: 'success',
             data: {
-                user,
+                ...user,
+                wallet_id,
             },
         };
+
+        return;
     }
+
+    ctx.status = 400;
+    ctx.body = {
+        status: 'error',
+        data: {
+            message: Errors.CANNOT_SIGN_UP_ERROR,
+        },
+    };
 
     await next();
 };
