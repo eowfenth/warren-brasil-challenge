@@ -14,6 +14,14 @@ const get_wallet_by_user_id = async (user_id: string): Promise<Wallet | null> =>
     return wallet;
 };
 
+const get_statement = async (wallet_id: string, page_number: number, page_size: number): Promise<Transaction[]> => {
+    const result: Transaction[] = await knex('transactions')
+        .select()
+        .where({ deleted_at: null, wallet_id })
+        .limit(page_size)
+        .offset((page_size - 1) * page_number);
+    return result;
+};
 const create = async (user_id: string): Promise<string | null> => {
     const wallet = await knex.transaction(async (trx) => {
         const result: Wallet[] = await trx('wallets')
