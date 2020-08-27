@@ -8,6 +8,8 @@ const errors = {
     CANNOT_DEPOSIT_ERROR: 'Não foi possível finalizar deposito',
     CANNOT_TRANSFER_ERROR: 'Não foi possível finalizar transferência',
     CANNOT_CREATE_BANKSLIP_ERROR: 'Não foi possível gerar um boleto no momento',
+    NOT_FOUND: 'Entidade não encontrada',
+    BALANCE_NOT_ENOUGH: 'Saldo não suficiente',
 };
 
 export default errors;
