@@ -102,7 +102,7 @@ describe('user using statement and deposit operations', () => {
     };
     let token: string;
 
-    test('get statament from a newly user', async () => {
+    test('get statement from a newly user', async () => {
         await request(server).post('/auth/sign_up').send(user);
         const session = await request(server)
             .post('/auth/sign_in')
@@ -116,13 +116,19 @@ describe('user using statement and deposit operations', () => {
     });
 
     test('deposit a positive value to a user', async () => {
-        await request(server)
+        const response = await request(server)
             .post('/wallet/deposit')
             .send({
                 value: 1000,
             })
             .set('Authorization', `Bearer ${token}`)
             .expect(201);
+
+        const statement = await request(server).get('/wallet/statement').set('Authorization', `Bearer ${token}`);
+
+        const data = statement.body.data;
+        expect(data.balance).toBe(1000);
+        expect(data.statements).toHaveLength(1);
     });
 
     test('deposit a negative value to a user', async () => {
@@ -178,10 +184,9 @@ describe('user using transfer operation', () => {
     test('transfer to other user', async () => {
         const registered_user = await request(server).post('/auth/sign_up').send(other_user);
         const user_id = registered_user.body.data.user_id;
-        console.log('user_id', user_id);
         const session = await request(server)
             .post('/auth/sign_in')
-            .send({ email: user.email, password: user.password });
+            .send({ email: other_user.email, password: other_user.password });
         other_user_token = session.body.data.token;
         await request(server)
             .post('/wallet/deposit')
@@ -198,7 +203,21 @@ describe('user using transfer operation', () => {
             .set('Authorization', `Bearer ${token}`)
             .expect(201);
 
+        const statement = await request(server).get('/wallet/statement').set('Authorization', `Bearer ${token}`);
+
+        const data = statement.body.data;
+        expect(data.balance).toBe(0);
+        expect(data.statements).toHaveLength(2);
+
         await request(server).get('/wallet/statement').set('Authorization', `Bearer ${other_user_token}`);
+
+        const other_statement = await request(server)
+            .get('/wallet/statement')
+            .set('Authorization', `Bearer ${other_user_token}`);
+
+        const other_data = other_statement.body.data;
+        expect(other_data.balance).toBe(1000);
+        expect(other_data.statements).toHaveLength(1);
     });
 });
 
@@ -228,7 +247,7 @@ describe('user using withdraw operation', () => {
             .expect(400);
     });
 
-    test('withdraw a positive value from a user without balance', async () => {
+    test('withdraw a positive value from a user with balance', async () => {
         await request(server).post('/auth/sign_up').send(user);
         const session = await request(server)
             .post('/auth/sign_in')
@@ -247,6 +266,12 @@ describe('user using withdraw operation', () => {
             })
             .set('Authorization', `Bearer ${token}`)
             .expect(201);
+
+        const statement = await request(server).get('/wallet/statement').set('Authorization', `Bearer ${token}`);
+
+        const data = statement.body.data;
+        expect(data.balance).toBe(0);
+        expect(data.statements).toHaveLength(2);
     });
 });
 
