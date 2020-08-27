@@ -14,6 +14,7 @@ O prazo dado para termino é de 7 dias.
 
 A collection está neste [link]().
 
+-   O projeto não possui a funcionalidade de calcular a remuneração da conta corrente.
 -   O projeto possui as 4 funcionalidades: depósito de uma conta (`deposit`), pagamento entre contas (`transfer`), resgate (`withdraw`) e obtenção de extrato (`statement`). Além disso, o projeto possui autenticação e também cadastro.
 -   O projeto possui documentação de todos os métodos e possui uma documentação gerada, para mais informações leia o restante do readme.
 -   O projeto possui `eslint` e `prettier` para manter a base de código consistente.
