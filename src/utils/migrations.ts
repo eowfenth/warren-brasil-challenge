@@ -19,5 +19,4 @@ export async function dropTable(knex: Knex, tableName: string): Promise<void> {
     await knex.schema.dropTable(tableName);
 }
 
-
 export default { createTable, dropTable };
