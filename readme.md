@@ -8,9 +8,26 @@ Este projeto é a minha participação no processo seletivo da Warren Brasil. O 
 Entre as funcionalidades deve constar extrato, depósito, resgate e pagamento (possivelmente transferência);
 O prazo dado para termino é de 7 dias.
 
+### O que este projeto possui e não possui em relação ao desejado
+
+-   Este projeto não possui um código front-end para você interagir. No entanto, existe uma collection do `postman` completa com todos os endpoints. Existe uma ordem de execução caso você queira verificar os endpoints de maneira rápida.
+
+A collection está neste [link]().
+
+-   O projeto possui as 4 funcionalidades: depósito de uma conta (`deposit`), pagamento entre contas (`transfer`), resgate (`withdraw`) e obtenção de extrato (`statement`). Além disso, o projeto possui autenticação e também cadastro.
+-   O projeto possui documentação de todos os métodos e possui uma documentação gerada, para mais informações leia o restante do readme.
+-   O projeto possui `eslint` e `prettier` para manter a base de código consistente.
+-   Segredos são salvos em variáveis de ambiente utilizando `dotenv`.
+-   O desejado era rodar não só o banco de dados, mas o projeto como um todo em `Docker`. Possivelmente utilizando `Docker Compose`. No momento, existe apenas instruções para rodar o banco de dados utilizando Docker;
+-   O projeto foi configurado apenas para ambiente de desenvolvimento. Para uso em produção, alguns `tweaks` terão que ser feitos, por exemplo, lidar com `cors`;
+-   A ideia era utilizar a pagar.me para gerar um novo boleto para simular um pagamento e depósito por meio de boletos. Eventualmente utilizar isso como serviço para buscar e escutar alterações no boleto para adicionar seus pagamentos nas contas do usuário. A integração com a pagar.me foi feita mas a funcionalidade não foi finalizada.
+-   O projeto, por óbvio, não trata de concorrência de chamadas. Não existe um sistema de filas que proteja de ações concorrentes indevidas;
+-   O projeto possui cadastro e autenticação, apesar disso, utiliza `JWT` ao invés de `OAuth`;
+-   O projeto utiliza do `Helmet` para mitigar algumas vulnerabilidades;
+
 ### O que este projeto utiliza?
 
-Este projeto foi montado utilizando `Typescript`, `Koa`, `Knex` e `Axios`. Os testes foram feitos com `Jest`. A documentação foi gerada com `Typedoc`.np
+Este projeto foi montado utilizando `Typescript`, `Koa`, `Knex` e `Axios`. Os testes foram feitos com `Jest`. A documentação foi gerada com `Typedoc`.
 
 ### Como instalar e rodar
 
@@ -45,7 +62,6 @@ O processo de iniciar o projeto é o seguinte:
 2. Instalar dependências back-end;
 3. Rodar migrações;
 4. Iniciar projeto back-end;
-5. Rodar front-end;
 
 #### Iniciando banco de dados;
 
@@ -83,10 +99,6 @@ Para isso, rode: `npm run start`
 
 -   Build o projeto com `npm run build`
 -   Rode o projeto com `npm run start:build`
-
-### Iniciando o projeto front-end:
-
-[...] Working on it [...]
 
 ### Funcionalidades
 
@@ -128,12 +140,3 @@ Espere o seguinte fluxo para experimentação de todas as funcionalidades da apl
 8. Repetir passos (1) e (2);
 9. Criar uma transferência de um usuário para outro;
 10. Verificar extratos de ambos os usuários;
-
-### Decisões de projeto
-
--   O desejado era rodar não só o banco de dados, mas o projeto como um todo em `Docker`. Possivelmente utilizando `Docker Compose`. No momento, existe apenas instruções para rodar o banco de dados utilizando Docker;
--   O projeto foi configurado apenas para ambiente de desenvolvimento. Para uso em produção, alguns `tweaks` terão que ser feitos, por exemplo, lidar com `cors`;
--   A ideia era utilizar a pagar.me para gerar um novo boleto para simular um pagamento e depósito por meio de boletos. A depender do tempo não será possível entregar;
--   O projeto, por óbvio, não trata de concorrência de chamadas. Não existe um sistema de filas que proteja de ações concorrentes indevidas;
--   O projeto possui cadastro e autenticação, apesar disso, utiliza `JWT` ao invés de `OAuth`;
--   O projeto utiliza do `Helmet` para mitigar algumas vulnerabilidades;
