@@ -4,7 +4,10 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "jest --coverage",
+        "build": "tsc",
+        "start:build": "node build/app.js",
+        "start": "ts-node app.ts",
         "migration:create": "knex migrate:make",
         "migration:revert": "knex migrate:rollback",
         "migration:run": "knex migrate:latest",
