@@ -113,3 +113,6 @@ const create = async (user_id: string): Promise<string | null> => {
 
     return null;
 };
+
+
+export default { get_wallet, get_wallet_by_user_id, get_statement, transfer, create, action };
