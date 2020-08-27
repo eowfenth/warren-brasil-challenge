@@ -22,6 +22,7 @@ export async function up(knex: Knex): Promise<void> {
         table.text('type').notNullable();
         table.integer('amount').notNullable();
         table.uuid('user_id').notNullable();
+        table.uuid('wallet_id').notNullable();
     });
 
     await createTable(knex, 'bankslips', (table) => {
