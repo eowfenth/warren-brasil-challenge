@@ -1,4 +1,5 @@
 import { ParameterizedContext, Next } from 'koa';
+import Wallet from '../repositories/wallet';
 import Errors from '../utils/errors';
 /**
  * Controller responsável pela lógica relativa a obtenção de Extratos da Conta Corrente;
